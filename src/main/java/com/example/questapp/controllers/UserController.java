@@ -1,52 +1,62 @@
 package com.example.questapp.controllers;
 
-import com.example.questapp.entites.User;
-import com.example.questapp.repos.UserRepository;
+import com.example.questapp.dto.requests.CreateUserRequest;
+import com.example.questapp.dto.requests.UserUpdateRequest;
+import com.example.questapp.dto.responses.GetUserResponse;
 import com.example.questapp.services.UserService;
+import jakarta.validation.OverridesAttribute;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
 
-    public UserController (UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
     @GetMapping
-    public List<User> getAllUsers(){
+    public List<GetUserResponse> getUsers() {
+
         return userService.getAllUsers();
+
     }
 
     @PostMapping
-    public User createUser(@RequestBody User newUser){
-        return userService.saveOneUser(newUser);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
+
+        userService.createNewUser(createUserRequest);
+
+        return ResponseEntity.ok(createUserRequest.getUserName() + " has successfully created.");
+
     }
 
     @GetMapping("/{userId}")
-    public User getOneUser(@PathVariable Long userId){
-
-        //custom exception
+    public GetUserResponse getUser(@PathVariable Long userId) {
         return userService.getOneUserById(userId);
-
     }
 
     @PutMapping("/{userId}")
-    public User updateOneUser(@PathVariable Long userId, @RequestBody User newUser){
-        return userService.updateOneUser(userId,newUser);
+    public void updateUser(
+            @PathVariable Long userId,
+            @RequestBody UserUpdateRequest userUpdateRequest
+    ) {
+        userService.updateUser(userId, userUpdateRequest);
+
+
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteOneUser(@PathVariable Long userId){
-        userService.deleteById(userId);
+    public void deleteUser(@PathVariable Long userId) {
+        userService.deleteUserById(userId);
     }
-
-
 
 
 }

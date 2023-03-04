@@ -1,52 +1,54 @@
 package com.example.questapp.controllers;
 
-import com.example.questapp.entites.Comment;
-import com.example.questapp.requests.CommentCreateRequest;
-import com.example.questapp.requests.CommentUpdateRequest;
+import com.example.questapp.dto.requests.CommentUpdateRequest;
+import com.example.questapp.dto.requests.CreateCommentRequest;
+import com.example.questapp.dto.responses.GetCommentResponse;
 import com.example.questapp.services.CommentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/comments")
 public class CommentController {
 
-    CommentService commentService;
-
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
-    }
+    private final CommentService commentService;
 
     @GetMapping
-    public List<Comment> getAllComments(@RequestParam Optional<Long> userId,
-                                        @RequestParam Optional<Long> postId){
-        return commentService.getAllCommentsWithParam(userId,postId);
-    }
+    public List<GetCommentResponse> getComments(@RequestParam Optional<Long> userId,
+                                                @RequestParam Optional<Long> postId) {
+        return commentService.getAllCommentsWithParam(userId, postId);
 
-    @GetMapping("/{commentId}")
-    public Comment getOneComment(@PathVariable Long commentId){
-        return commentService.getOneCommentById(commentId);
     }
 
     @PostMapping
-    public Comment createOneComment(@RequestBody CommentCreateRequest request){
+    public ResponseEntity<?> createComment(@RequestBody CreateCommentRequest createCommentRequest) {
+        commentService.createNewComment(createCommentRequest);
 
-        return commentService.createOneComment(request);
+        return ResponseEntity.ok(" with id " + createCommentRequest.getId() + " has successfully created.");
+    }
+
+    @GetMapping("/{commentId}")
+    public GetCommentResponse getComment(@PathVariable Long commentId) {
+        return commentService.getOneComment(commentId);
     }
 
     @PutMapping("/{commentId}")
-    public Comment updateOneComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequest request){
-        return commentService.updateOneCommentById(commentId,request);
+    public ResponseEntity<?> updateComment(@PathVariable Long commentId,
+                                           @RequestBody CommentUpdateRequest commentUpdateRequest) {
+        commentService.updateComment(commentId,commentUpdateRequest);
+
+        return ResponseEntity.ok(" with id " + commentId + " has successfully updated.");
     }
 
     @DeleteMapping("/{commentId}")
     public void deleteOneComment(@PathVariable Long commentId){
-        commentService.deleteOneCommentById(commentId);
+        commentService.deleteComment(commentId);
     }
-
-
 
 
 }
