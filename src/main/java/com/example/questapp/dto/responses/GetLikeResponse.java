@@ -1,5 +1,6 @@
 package com.example.questapp.dto.responses;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetPostResponse {
+public class GetLikeResponse {
 
 
-    private Long id;
-    private Long userId;
-    private String userName;
-    private String title;
-    private String text;
+    Long id;
+    Long userId;
+    Long postId;
+
 }

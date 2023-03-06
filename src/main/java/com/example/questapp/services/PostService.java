@@ -2,6 +2,7 @@ package com.example.questapp.services;
 
 import com.example.questapp.dto.requests.CreatePostRequest;
 import com.example.questapp.dto.requests.PostUpdateRequest;
+import com.example.questapp.dto.responses.GetAllPostsResponse;
 import com.example.questapp.dto.responses.GetPostResponse;
 import com.example.questapp.dto.responses.GetUserResponse;
 import com.example.questapp.entities.Post;

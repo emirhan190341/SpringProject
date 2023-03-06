@@ -3,6 +3,7 @@ package com.example.questapp.controllers;
 import com.example.questapp.dto.requests.CreatePostRequest;
 import com.example.questapp.dto.requests.PostUpdateRequest;
 import com.example.questapp.dto.requests.UserUpdateRequest;
+import com.example.questapp.dto.responses.GetAllPostsResponse;
 import com.example.questapp.dto.responses.GetPostResponse;
 import com.example.questapp.entities.Post;
 import com.example.questapp.services.PostService;

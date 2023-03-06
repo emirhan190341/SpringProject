@@ -60,7 +60,7 @@ public class UserService {
 
         boolean changes = false;
 
-        if (userUpdateRequest.getUserName() != null && !userUpdateRequest.getUserName().equals(user.getUserName())) {
+        if (userUpdateRequest.getUserName() != null && !userUpdateRequest.getUserName().equals(user.getUsername())) {
             user.setUserName(userUpdateRequest.getUserName());
             changes = true;
         }
@@ -85,4 +85,5 @@ public class UserService {
      userRepository.deleteById(userId);
 
     }
+
 }

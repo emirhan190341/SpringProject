@@ -1,18 +1,16 @@
 package com.example.questapp.dto.responses;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetPostResponse {
+@Builder
+public class AuthenticationResponse {
 
+    private String token;
 
-    private Long id;
-    private Long userId;
-    private String userName;
-    private String title;
-    private String text;
 }
